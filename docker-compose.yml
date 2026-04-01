@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3002:3000"
+    volumes:
+      - .:/rails
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://jigar:jigar@db:5432/dockerize_demo_production
+    command: ./bin/rails server -b 0.0.0.0
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: jigar
+      POSTGRES_PASSWORD: jigar
+      POSTGRES_DB: dockerize_demo_production
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
